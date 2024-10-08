@@ -1,17 +1,44 @@
 import express from 'express';
-// import mongoose from 'mongoose';
+import cors from 'cors';
+import pino from 'pino-http';
 
-const app = express();
+import { env } from './utils/env.js';
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>');
+const logger = pino({
+    transport: {
+        target: 'pino-pretty'
+    }
 });
 
-app.get('/contacts', (req, res) => {
-    console.log(req.method);
-    console.log(req.url);
-    res.send('<h1>Contacts page</h1>');
-})
+export const startServer = () => {
+    const app = express();
 
-app.listen(3000, () => console.log('Server is running on port 3000'));
+    app.use(cors());
+    // app.use(logger());
+
+    app.get('/', (req, res) => {
+        res.json({
+            message: 'Welcome to server'
+        });
+    });
+
+    app.use((req, res) => {
+        res.status(404).json({
+            message: `${req.url} not found`
+        });
+    });
+
+    app.use((error, req, res, next) => {
+        res.status(500).json({
+            message: error.message,
+        });
+    });
+
+    const port = Number(env('PORT', 3000));
+
+    app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+};
+
+
 
