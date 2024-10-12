@@ -1,28 +1,25 @@
 import express from 'express';
 import cors from 'cors';
 
+import { env } from './utils/env.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+
 import contactRouter from './routers/contacts.js';
 
-import { env } from './utils/env.js';
+import { logger } from './middlewares/logger.js';
 
 
 export const setupServer = () => {
     const app = express();
     app.use(cors());
+    // app.use(logger);
 
     app.use('/contacts', contactRouter);
 
-    app.use((req, res) => {
-        res.status(404).json({
-            message: `Not found`
-        });
-    });
+    app.use(notFoundHandler);
 
-    app.use((error, req, res, next) => {
-        res.status(500).json({
-            message: error.message,
-        });
-    });
+    app.use(errorHandler);
 
     const port = Number(env('PORT', 3000));
 
