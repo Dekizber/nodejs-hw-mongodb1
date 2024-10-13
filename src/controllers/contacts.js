@@ -36,3 +36,42 @@ export const addContactController = async (req, res) => {
         data,
     });
 };
+
+// export const upsertContactController = async (req, res) => {
+//     const { contactId } = req.params;
+//     const { data, isNew } = await contactServices.updateContactById(contactId, req.body, { upsert: true });
+
+//     const status = isNew ? 201 : 200;
+
+//     res.status(status).json({
+//         status: `${status}`,
+//         message: `Successfully patched a contact!`,
+//         data,
+//     });
+// };
+
+export const patchContactController = async (req, res) => {
+    const { contactId } = req.params;
+    const result = await contactServices.updateContactById(contactId, req.body);
+
+    if (!result) {
+        throw createHttpError(404, `Contact not found`);
+    }
+
+    res.json({
+        status: 200,
+        message: `Successfully patched a contact!`,
+        data: result.data,
+    });
+};
+
+export const deleteContactController = async (req, res) => {
+    const { contactId } = req.params;
+    const data = await contactServices.deleteContactById(contactId);
+
+    if (!data) {
+        throw createHttpError(404, `Contact not found`);
+    }
+
+    res.status(204).send();
+};
