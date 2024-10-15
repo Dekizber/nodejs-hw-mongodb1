@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 
 import * as contactServices from '../services/contacts.js';
 
-export const getContactsController = async (req, res) => {
+export const getContacts = async (req, res) => {
     const data = await contactServices.getContacts();
 
     res.json({
@@ -12,7 +12,7 @@ export const getContactsController = async (req, res) => {
     });
 };
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactById = async (req, res, next) => {
     const { contactId } = req.params;
     const data = await contactServices.getContactById(contactId);
 
@@ -27,7 +27,7 @@ export const getContactByIdController = async (req, res, next) => {
     });
 };
 
-export const addContactController = async (req, res) => {
+export const addContact = async (req, res) => {
     const data = await contactServices.addContact(req.body);
 
     res.status(201).json({
@@ -37,7 +37,7 @@ export const addContactController = async (req, res) => {
     });
 };
 
-// export const upsertContactController = async (req, res) => {
+// export const upsertContact = async (req, res) => {
 //     const { contactId } = req.params;
 //     const { data, isNew } = await contactServices.updateContactById(contactId, req.body, { upsert: true });
 
@@ -50,7 +50,7 @@ export const addContactController = async (req, res) => {
 //     });
 // };
 
-export const patchContactController = async (req, res) => {
+export const patchContact = async (req, res) => {
     const { contactId } = req.params;
     const result = await contactServices.updateContactById(contactId, req.body);
 
@@ -65,7 +65,7 @@ export const patchContactController = async (req, res) => {
     });
 };
 
-export const deleteContactController = async (req, res) => {
+export const deleteContact = async (req, res) => {
     const { contactId } = req.params;
     const data = await contactServices.deleteContactById(contactId);
 
