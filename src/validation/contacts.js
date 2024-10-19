@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { typeList } from '../constants/contacts.js';
 
-export const contactAddScheme = Joi.object({
+export const contactAddSchema = Joi.object({
     name: Joi.string().required(),
     phoneNumber: Joi.number().required(),
     email: Joi.string(),
