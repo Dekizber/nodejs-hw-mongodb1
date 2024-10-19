@@ -12,10 +12,10 @@ contactRouter.get('/:contactId', isValidId, ctrlWrapper(contactController.getCon
 
 contactRouter.post('/', ctrlWrapper(contactController.addContact));
 
-// contactRouter.put('/:contactId', ctrlWrapper(contactController.upsertContact));
+// contactRouter.put('/:contactId', isValidId, ctrlWrapper(contactController.upsertContact));
 
-contactRouter.patch('/:contactId', ctrlWrapper(contactController.patchContact));
+contactRouter.patch('/:contactId', isValidId, ctrlWrapper(contactController.patchContact));
 
-contactRouter.delete('/:contactId', ctrlWrapper(contactController.deleteContact));
+contactRouter.delete('/:contactId', isValidId, ctrlWrapper(contactController.deleteContact));
 
 export default contactRouter;
