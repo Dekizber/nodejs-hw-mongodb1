@@ -2,8 +2,12 @@ import createHttpError from 'http-errors';
 
 import * as contactServices from '../services/contacts.js';
 
-
 export const getContacts = async (req, res) => {
+    const { page, perPage } = req.query;
+    console.log(page);
+    console.log(perPage);
+
+
     const data = await contactServices.getContacts();
 
     res.json({
