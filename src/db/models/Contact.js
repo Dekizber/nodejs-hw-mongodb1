@@ -28,6 +28,8 @@ const contactSchema = new Schema({
 
 }, { versionKey: false, timestamps: true });
 
+export const sortByListContact = ['name', 'phoneNumber', 'email', 'contactType'];
+
 contactSchema.post('save', (error, data, next) => {
     error.status = 400;
     next();

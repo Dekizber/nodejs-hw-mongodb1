@@ -2,13 +2,19 @@ import createHttpError from 'http-errors';
 
 import * as contactServices from '../services/contacts.js';
 
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { sortByListContact } from '../db/models/Contact.js';
+
 export const getContacts = async (req, res) => {
-    const { page, perPage } = req.query;
-    console.log(page);
-    console.log(perPage);
+    const { page, perPage, sortBy, sortOrder } = req.query;
+    console.log(sortBy);
+    console.log(sortOrder);
 
 
-    const data = await contactServices.getContacts();
+    // const { sortBy, sortOrder } = parseSortParams({ ...req.query, sortByListContact });
+
+
+    const data = await contactServices.getContacts({ page, perPage });
 
     res.json({
         status: 200,

@@ -5,11 +5,12 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../utils/validateBody.js';
 import { contactAddSchema, contactUpdateSchema } from '../validation/contacts.js';
 import { parsePaginationParams } from '../middlewares/parsePaginationParams.js';
-
+import { parseSortParamsDecorator } from '../utils/parseSortParamsDecorator.js';
+import { sortByListContact } from '../db/models/Contact.js';
 
 const contactRouter = Router();
 
-contactRouter.get('/', parsePaginationParams, ctrlWrapper(contactController.getContacts));
+contactRouter.get('/', parsePaginationParams, parseSortParamsDecorator(sortByListContact), ctrlWrapper(contactController.getContacts));
 
 contactRouter.get('/:contactId', isValidId, ctrlWrapper(contactController.getContactById));
 
