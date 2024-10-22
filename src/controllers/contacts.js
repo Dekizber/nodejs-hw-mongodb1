@@ -7,14 +7,13 @@ import { sortByListContact } from '../db/models/Contact.js';
 
 export const getContacts = async (req, res) => {
     const { page, perPage, sortBy, sortOrder } = req.query;
-    console.log(sortBy);
-    console.log(sortOrder);
+
 
 
     // const { sortBy, sortOrder } = parseSortParams({ ...req.query, sortByListContact });
 
 
-    const data = await contactServices.getContacts({ page, perPage });
+    const data = await contactServices.getContacts({ page, perPage, sortBy, sortOrder });
 
     res.json({
         status: 200,
