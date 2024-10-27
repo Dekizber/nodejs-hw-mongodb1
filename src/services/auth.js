@@ -43,3 +43,7 @@ export const login = async (payload) => {
         refreshTokenValidUntil: Date.now() + refreshTokenLifeTime,
     });
 };
+
+export const findSession = filter => Session.findOne(filter);
+
+export const findUser = filter => User.findOne(filter);

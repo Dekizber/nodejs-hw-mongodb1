@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { isValidId } from '../middlewares/isValid.js';
 import { parsePaginationParams } from '../middlewares/parsePaginationParams.js';
 import { parseSortParamsDecorator } from '../utils/parseSortParamsDecorator.js';
+import { authenticate } from '../middlewares/authenticete.js';
 
 import { sortByListContact } from '../db/models/Contact.js';
 
@@ -14,6 +15,8 @@ import { validateBody } from '../utils/validateBody.js';
 import { contactAddSchema, contactUpdateSchema } from '../validation/contacts.js';
 
 const contactRouter = Router();
+
+contactRouter.use(authenticate);
 
 contactRouter.get('/', parsePaginationParams, parseSortParamsDecorator(sortByListContact), ctrlWrapper(contactController.getContacts));
 
