@@ -13,4 +13,8 @@ authRouter.post('/register', validateBody(userRegisterSchema), ctrlWrapper(authC
 
 authRouter.post('/login', validateBody(userLoginSchema), ctrlWrapper(authControllers.login));
 
+authRouter.post('/refresh', ctrlWrapper(authControllers.refreshSession));
+
+authRouter.post('/logout', ctrlWrapper(authControllers.logout));
+
 export default authRouter;
