@@ -6,6 +6,7 @@ import User from "../db/models/User.js";
 import Session from "../db/models/Session.js";
 
 import { accessTokenLifeTime, refreshTokenLifeTime } from "../constants/users.js";
+import exp from "constants";
 
 const createSession = async (user) => {
 
@@ -85,6 +86,10 @@ export const refreshSession = async ({ sessionId, refreshToken }) => {
     await oldSession.save();
 
     return oldSession;
+};
+
+export const logout = async (sessionId) => {
+    await Session.deleteOne({ _id: sessionId });
 };
 
 export const findSession = filter => Session.findOne(filter);
