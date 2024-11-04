@@ -68,4 +68,20 @@ export const logout = async (req, res) => {
     throw createHttpError(401, "Session not found");
 };
 
+export const requestResetEmailController = async (req, res) => {
+    await authServices.requestResetToken(req.body.email);
+    res.json({
+        message: 'Reset password email was successfully sent!',
+        status: 200,
+        data: {},
+    });
+};
 
+export const resetPasswordController = async (req, res) => {
+    await authServices.resetPassword(req.body);
+    res.json({
+        message: 'Password was successfully reset!',
+        status: 200,
+        data: {},
+    });
+};
