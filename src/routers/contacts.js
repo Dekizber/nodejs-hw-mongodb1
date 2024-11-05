@@ -4,6 +4,7 @@ import { isValidId } from '../middlewares/isValid.js';
 import { parsePaginationParams } from '../middlewares/parsePaginationParams.js';
 import { parseSortParamsDecorator } from '../utils/parseSortParamsDecorator.js';
 import { authenticate } from '../middlewares/authenticete.js';
+import { upload } from '../middlewares/multer.js';
 
 import { sortByListContact } from '../db/models/Contact.js';
 
@@ -22,11 +23,11 @@ contactRouter.get('/', parsePaginationParams, parseSortParamsDecorator(sortByLis
 
 contactRouter.get('/:contactId', isValidId, ctrlWrapper(contactController.getContactById));
 
-contactRouter.post('/', validateBody(contactAddSchema), ctrlWrapper(contactController.addContact));
+contactRouter.post('/', upload.single('photo'), validateBody(contactAddSchema), ctrlWrapper(contactController.addContact));
 
 // contactRouter.put('/:contactId', isValidId, validateBody(contactAddSchema), ctrlWrapper(contactController.upsertContact));
 
-contactRouter.patch('/:contactId', isValidId, validateBody(contactUpdateSchema), ctrlWrapper(contactController.patchContact));
+contactRouter.patch('/:contactId', upload.single('photo'), isValidId, validateBody(contactUpdateSchema), ctrlWrapper(contactController.patchContact));
 
 contactRouter.delete('/:contactId', isValidId, ctrlWrapper(contactController.deleteContact));
 

@@ -9,6 +9,7 @@ import { logger } from './middlewares/logger.js';
 import authRouter from './routers/auth.js';
 import contactRouter from './routers/contacts.js';
 
+import { UPLOAD_DIR } from './constants/index.js';
 
 import { env } from './utils/env.js';
 
@@ -18,6 +19,7 @@ export const setupServer = () => {
     // app.use(logger);
     app.use(express.json());
     app.use(cookieParser());
+    app.use('/uploads', express.static(UPLOAD_DIR));
 
     app.use('/auth', authRouter);
     app.use('/contacts', contactRouter);

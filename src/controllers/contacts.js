@@ -1,9 +1,11 @@
 import createHttpError from 'http-errors';
+import * as path from 'node:path';
 
 import * as contactServices from '../services/contacts.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 
-import { parseSortParams } from '../utils/parseSortParams.js';
-import { sortByListContact } from '../db/models/Contact.js';
+// import { parseSortParams } from '../utils/parseSortParams.js';
+// import { sortByListContact } from '../db/models/Contact.js';
 
 export const getContacts = async (req, res) => {
     const { page, perPage, sortBy, sortOrder } = req.query;
@@ -38,7 +40,13 @@ export const getContactById = async (req, res, next) => {
 
 export const addContact = async (req, res) => {
     const { _id: userId } = req.user;
-    const data = await contactServices.addContact({ ...req.body, userId });
+    let photo;
+    if (req.file) {
+        await saveFileToUploadDir(req.file, 'photos');
+        photo = path.join('photos', req.file.filename);
+    }
+
+    const data = await contactServices.addContact({ ...req.body, photo, userId });
 
     res.status(201).json({
         status: 201,
